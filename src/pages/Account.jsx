@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getOrders, ORDER_STATUSES } from "../api";
 import { ErrorBox, Grid } from "../components/ui";
 import { money, useApp, useLoad } from "../store";
@@ -51,7 +51,7 @@ export default function Account() {
                 <tbody>
                   {orders.data.map(o => (
                     <tr key={o.id}>
-                      <td><b>№{o.id}</b></td>
+                      <td><Link to={`/orders/${o.id}`}><b>№{o.id}</b></Link></td>
                       <td>{dateRu(o.created_at)}</td>
                       <td className="order-items">{o.items?.map(i => `${i.title} × ${i.quantity}`).join(", ")}</td>
                       <td>{money(o.total)}</td>

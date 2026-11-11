@@ -9,6 +9,7 @@ import Cart from "./pages/Cart";
 import Catalog from "./pages/Catalog";
 import Checkout, { OrderDone } from "./pages/Checkout";
 import Home from "./pages/Home";
+import Order from "./pages/Order";
 import Product from "./pages/Product";
 
 // Страница только для вошедших (и, при необходимости, только для админа)
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="account" element={<RequireAuth><Account /></RequireAuth>} />
+        <Route path="orders/:id" element={<RequireAuth><Order /></RequireAuth>} />
         <Route path="admin" element={<RequireAuth role="admin"><Admin /></RequireAuth>} />
         <Route path="*" element={<NotFound />} />
       </Route>

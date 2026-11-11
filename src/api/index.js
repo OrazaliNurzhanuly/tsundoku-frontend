@@ -89,6 +89,9 @@ export const getMe = () => request("GET", "/user");
 export async function getOrders() {
   return (await request("GET", "/orders")).data;
 }
+export async function getOrder(id) {
+  return (await request("GET", `/orders/${id}`)).data;
+}
 export async function createOrder({ shippingName, shippingAddress, items }) {
   const body = {
     shipping_name: shippingName,
