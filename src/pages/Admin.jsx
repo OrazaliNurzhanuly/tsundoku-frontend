@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { admin, ORDER_STATUSES } from "../api";
+import { admin, getProduct, ORDER_STATUSES } from "../api";
 import { ErrorBox, Pager } from "../components/ui";
 import { formatName, money, useApp, useLoad } from "../store";
 
@@ -86,10 +86,17 @@ function Products({ categories }) {
     }
   };
 
-  const edit = p => setEditing({
-    id: p.id, category_id: p.category?.id ?? "", sku: p.sku, title: p.title, author: p.author, format: p.format,
-    description: p.description || "", price: p.price, stock: p.stock, is_published: p.isPublished,
-  });
+  // В списке админки API не отдаёт категорию — пробуем взять её из публичной карточки товара
+  const edit = async p => {
+    let categoryId = p.category?.id ?? "";
+    if (!categoryId && p.isPublished) {
+      try { categoryId = (await getProduct(p.id)).category?.id ?? ""; } catch {}
+    }
+    setEditing({
+      id: p.id, category_id: categoryId, sku: p.sku, title: p.title, author: p.author, format: p.format,
+      description: p.description || "", price: p.price, stock: p.stock, is_published: p.isPublished,
+    });
+  };
 
   return (
     <>
